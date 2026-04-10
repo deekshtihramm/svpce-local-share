@@ -47,26 +47,22 @@
             return;
         }
 
-        // File details
+    
         let fileName = file.name;
         let fileSize = file.size;
         let fileType = file.type;
         let lastModified = new Date(file.lastModified).toString();
 
-        // Random code
-        let code = Math.random().toString(36).substring(2, 8).toUpperCase();
-
-        // XML content
+    
         let xmlContent = `<?xml version="1.0" encoding="UTF-8"?>
-    <fileUpload>
-        <code>${code}</code>
-        <file>
-            <name>${fileName}</name>
-            <type>${fileType}</type>
-            <size>${fileSize} bytes</size>
-            <lastModified>${lastModified}</lastModified>
-        </file>
-    </fileUpload>`;
+            <fileUpload>
+                <file>
+                    <name>${fileName}</name>
+                    <type>${fileType}</type>
+                    <size>${fileSize} bytes</size>
+                    <lastModified>${lastModified}</lastModified>
+                </file>
+            </fileUpload>`;
 
         // Create XML file and download
         let blob = new Blob([xmlContent], { type: "application/xml" });
