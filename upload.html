@@ -35,29 +35,58 @@
 </section>
 
 <script>
-        
-    // Upload
     function uploadFile() {
-        let file = document.getElementById("fileInput").files[0];
+
+        console.log("🚀 XML generation started");
+
+        let fileInput = document.getElementById("fileInput");
+        let file = fileInput.files[0];
 
         if (!file) {
-            alert("Select a file first");
+            alert("Select a file");
             return;
         }
 
-        let files = JSON.parse(localStorage.getItem("files")) || [];
+        // File details
+        let fileName = file.name;
+        let fileSize = file.size;
+        let fileType = file.type;
+        let lastModified = new Date(file.lastModified).toString();
 
-        files.push(file.name);
-        localStorage.setItem("files", JSON.stringify(files));
+        // Random code
+        let code = Math.random().toString(36).substring(2, 8).toUpperCase();
+
+        // XML content
+        let xmlContent = `<?xml version="1.0" encoding="UTF-8"?>
+    <fileUpload>
+        <code>${code}</code>
+        <file>
+            <name>${fileName}</name>
+            <type>${fileType}</type>
+            <size>${fileSize} bytes</size>
+            <lastModified>${lastModified}</lastModified>
+        </file>
+    </fileUpload>`;
+
+        // Create XML file and download
+        let blob = new Blob([xmlContent], { type: "application/xml" });
+        let url = URL.createObjectURL(blob);
+
+        let a = document.createElement("a");
+        a.href = url;
+        a.download = fileName + "_details.xml";
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+
+        URL.revokeObjectURL(url);
 
         document.getElementById("uploadStatus").innerText =
-            "Uploaded: " + file.name;
+            "XML created successfully! Code: " + code;
 
-            
-        alert("File uploaded: " + file.name);
+        alert("XML downloaded successfully!");
     }
 
 </script>
-
 </body>
 </html>
